@@ -52,4 +52,4 @@ jobs:
                 --description "commit-sha-${{ github.sha }}" 
 
             - name: Deploy the app to the app env     
-              run:  aws elasticbeanstalk update-environment --environment-name aws Chris-webapp26-dev --version-label "ver-${{ github.sha }}" 
+              run:  aws elasticbeanstalk update-environment --environment-name chris-webapp26-dev --version-label "ver-${{ github.sha }}"
