@@ -1,0 +1,37 @@
+name: deploy to elastic beanstalk
+on: 
+    push:
+      branches:
+        main
+    workflow_dispatch:
+
+jobs:
+    buildanddeploytoelasticbeanstalk:
+        runs-on: ubuntu-latest
+        permissions:
+            contents: read
+            packages: write
+        steps: 
+            - name: checkout code from the repo
+              uses: actions/checkout@v3
+
+            - name: setup java and maven environment
+              uses: actions/setup-java@v3
+              with: 
+                distribution: 'adopt'
+                java-version: '11'
+
+            - name: build artifact with maven
+              run: mvn package
+
+            - name: code analysis with soanrwube 
+              run: mvn sonar:sonar \
+                -Dsonar.projectKey=chriswebapp -Dsonar.host.url=${{secrets.SONAR_HOST_URL}} -Dsonar.login=${{secrets.SONAR_LOGIN_TOKEN}}
+
+            - name: publish artifact to github packages 
+              run: mvn --batch-mode deploy
+              env:
+                GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+
+    
