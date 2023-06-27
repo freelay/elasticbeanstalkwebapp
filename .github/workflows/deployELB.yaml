@@ -25,7 +25,7 @@ jobs:
               run: mvn package
 
             - name: code analysis with soanrwube 
-              run: mvn sonar:sonar \
+              run: mvn sonar:sonar
                 -Dsonar.projectKey=chriswebapp -Dsonar.host.url=${{secrets.SONAR_HOST_URL}} -Dsonar.login=${{secrets.SONAR_LOGIN_TOKEN}}
 
             - name: publish artifact to github packages 
